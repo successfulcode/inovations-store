@@ -5,7 +5,10 @@ import { ProductsModule } from './products/products.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
-import { User } from './users/users.model';
+import { User } from './users/models/users.model';
+import { RolesModule } from './roles/roles.module';
+import { Role } from './roles/models/roles.model';
+import { UserRoles } from 'src/roles/models/user-roles.model';
 
 @Module({
   imports: [
@@ -17,11 +20,12 @@ import { User } from './users/users.model';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      models: [User],
+      models: [User, Role, UserRoles],
       autoLoadModels: true
     }),
     ProductsModule,
-    UsersModule
+    UsersModule,
+    RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],
