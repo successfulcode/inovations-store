@@ -15,6 +15,8 @@ export class UsersService {
 
     await user.$set('roles', [role.id])
 
+    user.roles = [role]
+
     return user;
   }
 
