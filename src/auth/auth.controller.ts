@@ -5,6 +5,7 @@ import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @ApiTags('Authorization')
+@UsePipes(ValidationPipe)
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -14,7 +15,6 @@ export class AuthController {
     return this.authService.login(userDto);
   }
 
-  @UsePipes(ValidationPipe)
   @Post('/signup')
   signUp(@Body() userDto: CreateUserDto) {
     return this.authService.signUp(userDto);
