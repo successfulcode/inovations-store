@@ -11,6 +11,7 @@ import { BanUserDto } from './dto/ban-user.dto';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 
 @ApiTags('Users')
+@UsePipes(ValidationPipe)
 @Controller('users')
 export class UsersController {
 
@@ -18,17 +19,16 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({ status: 200, type: User })
-  @UsePipes(ValidationPipe)
   @Post()
   createUser(@Body() userDto: CreateUserDto) {
-    // return this.usersService.createUser(userDto);
+    return this.usersService.createUser(userDto);
   }
 
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
   // @Roles('ADMIN')
   // @UseGuards(RolesAuthGuards)
-  // @UseGuards(JwtAuthGuards)
+  @UseGuards(JwtAuthGuards)
   @Get()
   getUsers() {
     return this.usersService.getAllUsers();
