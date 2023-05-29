@@ -1,0 +1,35 @@
+version: '1.0'
+
+services:
+  main:
+    container_name: main
+    build:
+      context: .
+    env_file:
+      - .env.development
+    volumes:
+      - .:/inovations-store
+      - /app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: npm run dev
+    depends_on:
+      - mysql
+    restart: always
+
+  mysql:
+    container_name: inovations_store
+    image: mysql:8.0
+    env_file:
+      - .env.development
+    environment:
+      - MYSQL_ROOT_PASSWORD=test1234561
+    volumes:
+      - inovations_store:/var/lib/mysql
+    ports:
+      - 3309:3309
+    restart: always
+
+volumes:
+  inovations_store:
