@@ -10,10 +10,19 @@ import { RolesModule } from './roles/roles.module';
 import { Role } from './roles/models/roles.model';
 import { UserRoles } from 'src/roles/models/user-roles.model';
 import { AuthModule } from './auth/auth.module';
+import { PostsModule } from './posts/posts.module';
+import { Post } from './posts/post.model';
+import { FilesService } from './files/files.service';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: `.env.${process.env.NODE_ENV}` }),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, 'static'),
+    }),
     SequelizeModule.forRoot({
       dialect: 'mysql',
       host: process.env.MYSQL_HOST,
@@ -21,16 +30,18 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      models: [User, Role, UserRoles],
+      models: [User, Role, UserRoles, Post],
       autoLoadModels: true
     }),
     ProductsModule,
     UsersModule,
     RolesModule,
-    AuthModule
+    AuthModule,
+    PostsModule,
+    FilesModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FilesService],
 })
 
 export class AppModule {}
